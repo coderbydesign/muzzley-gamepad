@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Muzzley Gamepad</title>
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <style type="text/css">
+    #error {
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img id="qrCnt">
+    <div class="alert alert-danger" id="error"></div>
+    <div id="action" ></div>
+  </div>
+</body>
+<script src="http://cdn.muzzley.com/libraries/js/muzzley-client-0.3.8.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var token = '467c85cccaacf5a1';
+
+  muzzley.on('error', function(e) {
+    $('#error').text(e).show();
+  });
+
+  muzzley.connectApp(token, function(e, activity) {
+    if (e) return $('#error').text(e).show();
+
+    $('#qrCnt').attr('src', activity.qrCodeUrl);
+
+    activity.on('participantQuit', function(participant) {
+      alert('Check ya later!');
+    });
+
+    activity.on('participantJoin', function(participant) {
+      participant.changeWidget('gamepad', function(e) {
+        if (e) return $('#error').text(e).show();
+        $('#qrCnt').hide();
+      });
+
+      participant.on('action', function(action) {
+        console.log(action);
+        $('#action').text(JSON.stringify(action));
+      });
+    });
+  });
+</script>
+</html>
