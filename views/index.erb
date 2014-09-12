@@ -44,21 +44,23 @@
     muzzley.connectApp(token, function(e, activity) {
       if (e) return $('#error').text(e).show();
 
-      $('#qrCnt').attr('src', activity.qrCodeUrl);
+      qrUrl = activity.qrCodeUrl
+      $('#qrCnt').attr('src', qrUrl);
       $('#loader').hide();
 
       activity.on('participantQuit', function(participant) {
-        alert('Check ya later!');
+        $('#action').text('Check ya later!');
+        $('#qrCnt').show().attr('src', qrUrl);
       });
 
       activity.on('participantJoin', function(participant) {
         participant.changeWidget('gamepad', function(e) {
           if (e) return $('#error').text(e).show();
+          $('#action').text('Howdy!');
           $('#qrCnt').hide();
         });
 
         participant.on('action', function(action) {
-          console.log(action);
           $('#action').text(JSON.stringify(action));
         });
       });
