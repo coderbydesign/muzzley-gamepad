@@ -18,11 +18,14 @@ $(function(){
     });
 
     activity.on('participantJoin', function(participant) {
-      participant.changeWidget('gamepad', function(e) {
-        if (e) return $('#error').text(e).show();
-        $('#action').text('Howdy!');
-        $('#qrCnt').hide();
-      });
+      participant.changeWidget(
+        'gamepad',
+        {sector: 45, intensitySteps: 10, numButtons: 4},
+        function(e) {
+          if (e) return $('#error').text(e).show();
+          $('#action').text('Howdy!');
+          $('#qrCnt').hide();
+        });
 
       participant.on('action', function(action) {
         $('#action').text(JSON.stringify(action));
