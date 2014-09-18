@@ -2,11 +2,11 @@ $(function(){
   var token = '467c85cccaacf5a1';
 
   muzzley.on('error', function(e) {
-    $('#error').text(e).show();
+    $('.error').text(e).show();
   });
 
   muzzley.connectApp(token, function(e, activity) {
-    if (e) return $('#error').text(e).show();
+    if (e) return $('.error').text(e).show();
 
     qrUrl = activity.qrCodeUrl
     $('#qrCnt').attr('src', qrUrl);
@@ -22,7 +22,7 @@ $(function(){
         'gamepad',
         {sector: 45, intensitySteps: 10, numButtons: 4},
         function(e) {
-          if (e) return $('#error').text(e).show();
+          if (e) return $('.error').text(e).show();
           $('#action').text('Howdy!');
           $('#qrCnt').hide();
         });
